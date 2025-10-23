@@ -2,9 +2,6 @@ package com.example.media.player;
 
 import com.example.media.source.MediaSource;
 
-/**
- * Concrete Abstraction in Bridge: delegates rendering to the implementor.
- */
 public class ConcreteMediaPlayer extends MediaPlayer {
     public ConcreteMediaPlayer(Renderer renderer) {
         super(renderer);
