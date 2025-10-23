@@ -1,0 +1,42 @@
+@startuml
+interface MediaSource
+class LocalFileSource
+class HlsSource
+class RemoteApiSource
+class LegacyMonolithicSource
+class LegacySourceAdapter
+class RemoteProxySource
+
+MediaSource <|.. LocalFileSource
+MediaSource <|.. HlsSource
+MediaSource <|.. RemoteApiSource
+LegacyMonolithicSource -- LegacySourceAdapter : adapts
+LegacySourceAdapter ..|> MediaSource
+MediaSource <|.. RemoteProxySource
+
+interface Renderer
+class HardwareRenderer
+class SoftwareRenderer
+class RendererDecorator
+class WatermarkDecorator
+class EqualizerDecorator
+
+Renderer <|.. HardwareRenderer
+Renderer <|.. SoftwareRenderer
+Renderer <|.. RendererDecorator
+RendererDecorator <|-- WatermarkDecorator
+RendererDecorator <|-- EqualizerDecorator
+
+interface PlaylistItem
+class MediaFile
+class CompositePlaylist
+
+PlaylistItem <|.. MediaFile
+PlaylistItem <|.. CompositePlaylist
+MediaFile --> MediaSource
+CompositePlaylist --> PlaylistItem : contains 0..*
+
+class MediaPlayer
+MediaPlayer --> Renderer : has
+MediaPlayer --> MediaSource : plays
+@enduml

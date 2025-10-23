@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant MediaPlayer as MP
+participant Renderer as HW
+participant WatermarkDecorator as WM
+participant EqualizerDecorator as EQ
+
+User -> MP: setRenderer(HardwareRenderer)
+User -> MP: applyPlugins(Watermark + Equalizer)
+note right of MP: decoratorStack = EQ -> WM -> HW
+
+User -> MP: play(source)
+MP -> EQ: render(token)
+EQ -> WM: render(token)
+WM -> HW: render(token)
+HW --> MP: done
+@enduml

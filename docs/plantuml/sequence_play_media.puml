@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant CompositePlaylist as PL
+participant MediaPlayer as MP
+participant MediaSource as MS
+participant RemoteProxy as Proxy
+participant Renderer as R
+
+User -> PL: play()
+PL -> MP: play(item)
+MP -> MS: openStream()
+alt if proxied
+    MS -> Proxy: checkCache()
+    Proxy -> MS: fetch() [on miss]
+    Proxy --> MP: cachedToken
+else
+    MS --> MP: streamToken
+end
+MP -> R: render(streamToken)
+R --> MP: done
+MP --> PL: next item
+@enduml
